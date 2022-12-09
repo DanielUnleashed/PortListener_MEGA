@@ -3,7 +3,7 @@
 #define CLOCK 50
 #define RWB 52
 #define ADDRESS_START 23
-#define DATA_START 24
+#define DATA_START 22
 
 void printInBIN(uint8_t n){
   for(uint8_t i = 0; i < 8; i++){
@@ -34,26 +34,19 @@ void loop() {
     uint16_t address = 0;
     for(uint8_t i = 0; i < 16; i++){
       uint16_t bit = digitalRead(ADDRESS_START+i*2);
-      address = address | (bit<<i);
-      Serial.print(bit);
+      address |= bit<<(15-i);
     }
   
-    printInBIN(address>>8);
-    printInBIN(address);
-
     uint8_t data = 0;
     for(uint8_t i = 0; i < 8; i++){
       uint8_t bit = digitalRead(DATA_START+i*2);
-      data = (data << 1) | bit;
+      data |= bit<<(7-i);
     }
-
-    Serial.print("\t");
-    printInBIN(data);
 
     char readOrWrite = digitalRead(RWB)?'r':'w';
 
     char output[50];
-    sprintf(output, "\tAdd: %04X\tData: %02X\t%c\n", address, data, readOrWrite);
+    sprintf(output, "Add: %04X\tData: %02X\t%c\n", address, data, readOrWrite);
     Serial.print(output);
   }
   lastClockState = currentClockState;
