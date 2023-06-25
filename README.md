@@ -1,0 +1,3 @@
+# PortListener_MEGA
+
+This is a tool for my 6502 project. The Arduino MEGA is used to listen an encode a parallel bus to see if the code and output is running as expected. Nothing fancy to see here...
